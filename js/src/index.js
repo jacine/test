@@ -20,6 +20,7 @@
                 <p class="card__location">${cardLocation(element)}</p>
               </div>
               <button class="card__button">
+                <span class="visually-hidden">Toggle ${cardName(element)}'s contact info</span>
                 <svg width="12" height="8" xmlns="http://www.w3.org/2000/svg"><path d="M1.41.34L6 4.92 10.59.34 12 1.75l-6 6-6-6z" /></svg>
               </button>
             </div>
