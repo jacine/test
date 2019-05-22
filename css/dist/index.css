@@ -138,18 +138,21 @@ p {
 
 .card__header {
   font-size: 0.875rem;
-  align-items: flex-start;
+  align-items: flex-end;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .card__title {
   color: #f77062;
+  flex: 0 0 auto;
   font-size: 1rem;
+  margin-right: 1ch;
   text-transform: capitalize;
 }
 
 .card__date {
-  margin-left: 1ch;
+  margin-bottom: 5px;
 }
 
 .card__location {
@@ -172,7 +175,9 @@ p {
 
 .card__footer li {
   flex: 0 0 50%;
+  overflow: hidden;
   padding: 20px;
+  text-overflow: ellipsis;
 }
 
 .card__footer li:first-child {
