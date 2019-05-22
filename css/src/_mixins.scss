@@ -1,0 +1,41 @@
+// Visually Hidden
+//
+// Hides elements visually, but keep them available for screen readers. For
+// elements that need to be focusable (e.g. a, button, input, select, textarea)
+// use `true` parameter to maintain focusability.
+//
+// Note: This is also avaialble as a helper class, `.visually-hidden` or
+// `visually-hidden-focusable`.
+//
+// @param {bool} $focusable - Whether the target selector is focusable.
+//
+// @example
+//    div {
+//      @include visually-hidden;
+//    }
+//    a {
+//      @include visually-hidden(true);
+//    }
+//------------------------------------------------------------------------------
+
+@mixin visually-hidden($focusable: false) {
+  & {
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    overflow: hidden;
+    position: absolute !important;
+    width: 1px;
+    word-wrap: normal;
+
+    @if ($focusable) {
+      &:active,
+      &:focus {
+        clip: auto;
+        height: auto;
+        overflow: visible;
+        position: static !important;
+        width: auto;
+      }
+    }
+  }
+}

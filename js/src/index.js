@@ -11,10 +11,10 @@
         cards += `
           <article class="card">
             <div class="card__main">
-              <div class="card__media">${cardImage(element.picture.medium)}</div>
+              <div class="card__media">${cardImage(element)}</div>
               <div class="card__content">
                 <div class="card__header">
-                  <h2 class="card__title">${cardName(element.name)}</h2>
+                  <h2 class="card__title">${cardName(element)}</h2>
                   ${cardDate(element)}
                 </div>
                 <p class="card__location">${cardLocation(element)}</p>
@@ -38,20 +38,22 @@
     }
   });
 
-  function cardImage(image, name) {
+  function cardImage(element) {
+    let name = cardName(element);
     let alt = name ? `${name} headshot` : 'headshot';
-    if (image) {
-      return `<img src="${image}" alt="${alt}" width="60" height="60" />`;
+
+    if (element.picture.medium) {
+      return `<img src="${element.picture.medium}" alt="${alt}" width="60" height="60" />`;
     }
   }
 
-  function cardName(name) {
-    return `${name.first} ${name.last}`;
+  function cardName(element) {
+    return `${element.name.first} ${element.name.last}`;
   }
 
   function cardDate(element) {
     if (element.dob.date) {
-      var year = new Date(element.dob.date).getFullYear();
+      let year = new Date(element.dob.date).getFullYear();
       return `<time class="card__date" datetime="${element.dob.date}">(${ year })</time>`;
     }
   }
@@ -65,6 +67,7 @@
 
   function initCards() {
     // Default state
+    $('.header__toggle').attr('aria-expanded', false);
     $('.card__button').attr('aria-expanded', false);
     $('.card__footer').attr('aria-hidden', true);
 
@@ -84,6 +87,25 @@
       else {
         $button.attr('aria-expanded', false);
         $button.parents('.card').find('.card__footer').attr('aria-hidden', true);
+      }
+    });
+
+    $('.header__toggle').click(function (e) {
+      e.preventDefault();
+      let $button = $(this);
+
+      // Toggle/reset classes.
+      $button.toggleClass('is-expanded');
+      $('.card').removeClass('is-open');
+
+      // Toggle ARIA roles.
+      if ($button.hasClass('is-expanded')) {
+        $button.attr('aria-expanded', true);
+        $('.card').addClass('is-open').find('.card__footer').attr('aria-hidden', false);
+      }
+      else {
+        $button.attr('aria-expanded', false);
+        $('.card').removeClass('is-open').find('.card__footer').attr('aria-hidden', true);
       }
     });
   }

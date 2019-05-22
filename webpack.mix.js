@@ -1,5 +1,8 @@
 let mix = require('laravel-mix');
 
+
+mix.disableNotifications();
+
 mix.js('js/src/index.js', 'js/dist/');
 
 mix.sass('css/src/index.scss', 'css/dist/');

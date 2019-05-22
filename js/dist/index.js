@@ -113,7 +113,7 @@
     success: function success(data) {
       var cards = '';
       data.results.forEach(function (element) {
-        cards += "\n          <article class=\"card\">\n            <div class=\"card__main\">\n              <div class=\"card__media\">".concat(cardImage(element.picture.medium), "</div>\n              <div class=\"card__content\">\n                <div class=\"card__header\">\n                  <h2 class=\"card__title\">").concat(cardName(element.name), "</h2>\n                  ").concat(cardDate(element), "\n                </div>\n                <p class=\"card__location\">").concat(cardLocation(element), "</p>\n              </div>\n              <button class=\"card__button\">\n                <svg width=\"12\" height=\"8\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M1.41.34L6 4.92 10.59.34 12 1.75l-6 6-6-6z\" /></svg>\n              </button>\n            </div>\n            <ul class=\"card__footer\">\n              <li><span class=\"card__label\">Phone</span> ").concat(element.phone, "</li>\n              <li><span class=\"card__label\">Email</span><a href=\"mailto:").concat(element.email, "\">").concat(element.email, "</a></li>\n            </ul>\n          </article>");
+        cards += "\n          <article class=\"card\">\n            <div class=\"card__main\">\n              <div class=\"card__media\">".concat(cardImage(element), "</div>\n              <div class=\"card__content\">\n                <div class=\"card__header\">\n                  <h2 class=\"card__title\">").concat(cardName(element), "</h2>\n                  ").concat(cardDate(element), "\n                </div>\n                <p class=\"card__location\">").concat(cardLocation(element), "</p>\n              </div>\n              <button class=\"card__button\">\n                <svg width=\"12\" height=\"8\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M1.41.34L6 4.92 10.59.34 12 1.75l-6 6-6-6z\" /></svg>\n              </button>\n            </div>\n            <ul class=\"card__footer\">\n              <li><span class=\"card__label\">Phone</span> ").concat(element.phone, "</li>\n              <li><span class=\"card__label\">Email</span><a href=\"mailto:").concat(element.email, "\">").concat(element.email, "</a></li>\n            </ul>\n          </article>");
       }); // Add Cards to content.
 
       $('#main').html(cards); // Enable expandable cards.
@@ -122,16 +122,17 @@
     }
   });
 
-  function cardImage(image, name) {
+  function cardImage(element) {
+    var name = cardName(element);
     var alt = name ? "".concat(name, " headshot") : 'headshot';
 
-    if (image) {
-      return "<img src=\"".concat(image, "\" alt=\"").concat(alt, "\" width=\"60\" height=\"60\" />");
+    if (element.picture.medium) {
+      return "<img src=\"".concat(element.picture.medium, "\" alt=\"").concat(alt, "\" width=\"60\" height=\"60\" />");
     }
   }
 
-  function cardName(name) {
-    return "".concat(name.first, " ").concat(name.last);
+  function cardName(element) {
+    return "".concat(element.name.first, " ").concat(element.name.last);
   }
 
   function cardDate(element) {
@@ -150,6 +151,7 @@
 
   function initCards() {
     // Default state
+    $('.header__toggle').attr('aria-expanded', false);
     $('.card__button').attr('aria-expanded', false);
     $('.card__footer').attr('aria-hidden', true);
     $('.card__button').click(function (e) {
@@ -165,6 +167,21 @@
       } else {
         $button.attr('aria-expanded', false);
         $button.parents('.card').find('.card__footer').attr('aria-hidden', true);
+      }
+    });
+    $('.header__toggle').click(function (e) {
+      e.preventDefault();
+      var $button = $(this); // Toggle/reset classes.
+
+      $button.toggleClass('is-expanded');
+      $('.card').removeClass('is-open'); // Toggle ARIA roles.
+
+      if ($button.hasClass('is-expanded')) {
+        $button.attr('aria-expanded', true);
+        $('.card').addClass('is-open').find('.card__footer').attr('aria-hidden', false);
+      } else {
+        $button.attr('aria-expanded', false);
+        $('.card').removeClass('is-open').find('.card__footer').attr('aria-hidden', true);
       }
     });
   }
