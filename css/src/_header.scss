@@ -1,0 +1,33 @@
+.header {
+  align-items: center;
+  background: $orange-pink linear-gradient(45deg, $orange 0%, $pink 100%);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  padding: 2.8rem 1.45rem 1.4rem;
+  position: relative;
+
+  &__toggle {
+    background: none;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    left: 1.4rem;
+    position: absolute;
+
+    &:hover,
+    &:focus {
+      color: rgba(255, 255, 255, 0.6);
+      outline: 0;
+    }
+  }
+
+  &__title {
+    font-family: $font-headings;
+    font-size: 0.875rem;
+    letter-spacing: 1.5px;
+    line-height: 1;
+    margin: 0;
+    text-transform: uppercase;
+  }
+}
